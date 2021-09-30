@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private EnergyText energyTextTemplate = null;
     [SerializeField]
+    private ShadowText shadowTextTemplate = null;
+    [SerializeField]
     private GameObject handUpgradePanelTamplate = null;
     [SerializeField]
     private GameObject upgradePanelTamplate = null;
@@ -37,6 +39,8 @@ public class UIManager : MonoBehaviour
     public GameObject Keyboard3;
     public GameObject ShadowHandLeft = null;
     public GameObject ShadowHandRight = null;
+    public GameObject Teemo = null;
+    public GameObject TeemoIcon = null;
 
 
     private List<UpgradeHandPanel> upgradePanels = new List<UpgradeHandPanel>();
@@ -83,6 +87,7 @@ public class UIManager : MonoBehaviour
             newText = Instantiate(energyTextTemplate, energyTextTemplate.transform.parent);
         }
 
+
         KeyboardDead();
         ChangeSprite();
         UpdateEnergyPanel();
@@ -95,6 +100,22 @@ public class UIManager : MonoBehaviour
         if(ShadowHandRight.activeSelf == true)
         {
             OnShadowHandRight();
+            ShadowText newText2 = null;
+
+            if (pool.childCount > 0)
+            {
+                newText2 = pool.GetChild(0).GetComponent<ShadowText>();
+            }
+            else
+            {
+                newText2 = Instantiate(shadowTextTemplate, shadowTextTemplate.transform.parent);
+            }
+
+            KeyboardDead();
+            ChangeSprite();
+            UpdateEnergyPanel();
+
+            newText2.Show(Input.mousePosition);
         }
     }
 
@@ -104,22 +125,7 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.CurrentUser.totalClick += GameManager.Instance.CurrentUser.dPc;
         shadowRightHandAnimator.Play("ShadowClick2");
         audioSource[0].Play();
-        EnergyText newText = null;
 
-        if (pool.childCount > 0)
-        {
-            newText = pool.GetChild(0).GetComponent<EnergyText>();
-        }
-        else
-        {
-            newText = Instantiate(energyTextTemplate, energyTextTemplate.transform.parent);
-        }
-
-        KeyboardDead();
-        ChangeSprite();
-        UpdateEnergyPanel();
-
-        newText.Show(Input.mousePosition);
     }
 
     public void OnClickLeftHand()
@@ -162,6 +168,22 @@ public class UIManager : MonoBehaviour
         if(ShadowHandLeft.activeSelf == true)
         {
             OnShadowHandLeft();
+            ShadowText newText2 = null;
+
+            if (pool.childCount > 0)
+            {
+                newText2 = pool.GetChild(0).GetComponent<ShadowText>();
+            }
+            else
+            {
+                newText2 = Instantiate(shadowTextTemplate, shadowTextTemplate.transform.parent);
+            }
+
+            KeyboardDead();
+            ChangeSprite();
+            UpdateEnergyPanel();
+
+            newText2.Show(Input.mousePosition);
         }
     }
     public void OnShadowHandLeft()
@@ -170,22 +192,7 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.CurrentUser.totalClick += GameManager.Instance.CurrentUser.dPc;
         shadowLeftHandAnimator.Play("ShadowClick1");
         audioSource[0].Play();
-        EnergyText newText = null;
 
-        if (pool.childCount > 0)
-        {
-            newText = pool.GetChild(0).GetComponent<EnergyText>();
-        }
-        else
-        {
-            newText = Instantiate(energyTextTemplate, energyTextTemplate.transform.parent);
-        }
-
-        KeyboardDead();
-        ChangeSprite();
-        UpdateEnergyPanel();
-
-        newText.Show(Input.mousePosition);
     }
 
     public void UpdateEnergyPanel()

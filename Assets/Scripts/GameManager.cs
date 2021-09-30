@@ -34,7 +34,7 @@ public class GameManager : MonoSingleton<GameManager>
             Directory.CreateDirectory(SAVE_PATH);
         }
         InvokeRepeating("SaveToJson", 1f, 60f);
-        InvokeRepeating("EarnEnergyPerSecond", 0f, 1f);
+        InvokeRepeating("EarnEnergyPerSecond", 0f, 2f);
         LoadFromJson();
         uiManager = GetComponent<UIManager>();
         audioSource = GetComponents<AudioSource>();
@@ -44,13 +44,18 @@ public class GameManager : MonoSingleton<GameManager>
     {
         foreach (Upgrader upgrader in user.upgraderList)
         {
+            if (upgrader.sPs > 10)
+            {
+                GameManager.Instance.UI.Teemo.SetActive(true);
+            }
+
             int r = Random.Range(0, 100);
-            if (r < 5)
+            if (r < 10)
             {
                 user.stress += upgrader.sPs * 2;
                 if (upgrader.sPs > 10)
                 {
-                    audioSource[1].Play();
+                    StartCoroutine(TeemoCrit());
                 }
             }
             else
@@ -82,6 +87,15 @@ public class GameManager : MonoSingleton<GameManager>
     private void OnApplicationQuit()
     {
         SaveToJson();
+    }
+
+    IEnumerator TeemoCrit()
+    {
+        GameManager.Instance.UI.TeemoIcon.SetActive(true);
+        audioSource[1].Play();
+        yield return new WaitForSeconds(1.2f);
+        GameManager.Instance.UI.TeemoIcon.SetActive(false);
+        StopCoroutine(TeemoCrit());
     }
 
 }

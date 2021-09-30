@@ -55,9 +55,12 @@ public class UpgradeHandPanel : MonoBehaviour
         }
 
         GameManager.Instance.CurrentUser.stress -= upgrader.price;
-        upgrader.price = (long)(upgrader.price * 1.35f);
+        upgrader.price = (long)(upgrader.price * 1.2f);
         upgrader.sPs = (long)(upgrader.sPs * 1.1);
-        GameManager.Instance.CurrentUser.dPc = (long)(GameManager.Instance.CurrentUser.dPc * 1.34f);
+        if (upgrader.upgraderNum == 0)
+        {
+            GameManager.Instance.CurrentUser.dPc = (long)(GameManager.Instance.CurrentUser.dPc * 1.34f);
+        }
         upgrader.amount++;
         UIUpdate();
         GameManager.Instance.UI.UpdateEnergyPanel();
